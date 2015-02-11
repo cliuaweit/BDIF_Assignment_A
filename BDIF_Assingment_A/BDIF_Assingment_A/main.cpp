@@ -8,23 +8,27 @@
 
 #include <iostream>
 #include <string>
-#include "Read_Record.h"
-#include <map>
-#include "Write_Record.h"
-#include "NORMAL.h"
+#include "SCRUB.h"
 
 using namespace std;
 
 int main()
 {
-    map<record_time, record_value> records;
     
-    records = get_records("data10k.txt");
+    scrub data_scrub;
+    
+    //read the data
+    data_scrub.get_records("data10k.txt");
+    
+    //find outlier in price
+    data_scrub.find_outlier(0);
+    //find outlier in volume
+    data_scrub.find_outlier(1);
+    
+    //write signals and noise to two different files
+    data_scrub.write_records("signal", "noise");
     
     
-    write_records(records, "signal.csv");
-    
-    //normal_test("data10k.txt");
     
     return 0;
 }
